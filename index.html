@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Light mode colors (default) */
+            --bg-color: #f0f0f0;
+            --text-color: #333333;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(91, 79, 255, 0.3);
+            --card-shadow: rgba(91, 79, 255, 0.1);
+            --nav-bg: rgba(240, 240, 240, 0.8);
+            --section-title-gradient: linear-gradient(90deg, #5b4fff, #5bc2ff);
+            --hero-title-gradient: linear-gradient(90deg, #ff5b99, #5b4fff);
+        }
+        
+        /* Dark mode colors */
+        [data-theme="dark"] {
+            --bg-color: #0a0a1a;
+            --text-color: #f0f0f0;
+            --card-bg: rgba(20, 20, 40, 0.7);
+            --card-border: rgba(91, 79, 255, 0.3);
+            --card-shadow: rgba(91, 200, 255, 0.1);
+            --nav-bg: rgba(10, 10, 26, 0.8);
+            --section-title-gradient: linear-gradient(90deg, #5b4fff, #5bc2ff);
+            --hero-title-gradient: linear-gradient(90deg, #ff5b99, #5b4fff);
+        }
+        
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            color: var(--text-color); 
+            background: var(--bg-color); 
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* 3D Background Effect */
+        /* body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(50, 120, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(50, 120, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center center;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center top;
+            pointer-events: none;
+            z-index: -1;
+        } */
+        
+        /* Glowing Accent Lines */
+        /* body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 0%, transparent 48%, rgba(0, 255, 255, 0.3) 49%, rgba(0, 255, 255, 0.3) 51%, transparent 52%, transparent 100%),
+                linear-gradient(0deg, transparent 0%, transparent 48%, rgba(255, 0, 255, 0.3) 49%, rgba(255, 0, 255, 0.3) 51%, transparent 52%, transparent 100%);
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.5;
+            animation: moveBg 15s linear infinite;
+        }
+        
+        @keyframes moveBg {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        } */
+        
+        /* Floating Particles */
+        /* .particle {
+            position: fixed;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: -1;
+            animation: float 10s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        } */
+        
+        /* Content wrapper styles - adjusted for light background */
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            perspective: 1px;
+            scroll-behavior: smooth;
+            z-index: 1; 
+        }
+        
+        /* Theme toggle position adjustment */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100; /* Above nav */
+        }
+        
+        /* Innovative Navigation - Dynamic Positioning */
+        nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Navigation position states */
+        nav.at-top {
+            bottom: auto;
+            top: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0;
+            list-style: none;
+            background: rgba(91, 79, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 5px 20px rgba(91, 79, 255, 0.2), 
+                        inset 0 0 10px rgba(91, 200, 255, 0.1);
+            border: 1px solid rgba(91, 79, 255, 0.3);
+        }
+        
+        .nav-links li {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--hero-title-gradient);
+            border-radius: 50%;
+            top: 5px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            background: var(--hero-title-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(91, 79, 255, 0.2);
+        }
+        
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .nav-links a:hover i,
+        .nav-links a.active i {
+            transform: translateY(-3px);
+        }
+        
+        /* Animated highlight for active nav item */
+        .nav-glow {
+            position: absolute;
+            height: calc(100% - 10px);
+            top: 5px;
+            border-radius: 25px;
+            background: rgba(91, 79, 255, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 0;
+            opacity: 0;
+        }
+        
+        /* Show nav on scroll up, hide on scroll down */
+        nav.hidden {
+            transform: translate(-50%, 100px);
+            opacity: 0;
+        }
+        
+        /* Navigation styles - modern update */
+        /* nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 5px 20px rgba(91, 79, 255, 0.1);
+            transition: all 0.3s ease;
+        } */
+        
+        /* .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--hero-title-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        } */
+        
+        /* .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        } */
+        
+        /* nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        } */
+        
+        /* nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--hero-title-gradient);
+            transition: width 0.3s ease;
+        } */
+        
+        /* nav a:hover {
+            color: #5b4fff;
+        } */
+        
+        /* nav a:hover::after {
+            width: 100%;
+        } */
+        
+        /* Active nav link */
+        /* nav a.active {
+            color: #5b4fff;
+        } */
+        
+        /* nav a.active::after {
+            width: 100%;
+        } */
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--hero-title-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(91, 79, 255, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            max-width: 600px;
+        }
+        
+        /* Content Sections */
+        section {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+        
+        section h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: var(--section-title-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 0 20px var(--card-shadow);
+            transition: all 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(91, 79, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(91, 79, 255, 0.5);
+            box-shadow: 0 0 30px rgba(91, 79, 255, 0.2);
+        }
+        
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #5b4fff;
+        }
+        
+        .card p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        /* Badges */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            background: rgba(91, 79, 255, 0.1);
+            color: #5b4fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(91, 79, 255, 0.3);
+        }
+        
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #5b4fff, #5bc2ff);
+            border-radius: 4px;
+        }
+        
+        /* Dark Mode Toggle Button */
+        /* .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        } */
+        
+        .theme-toggle-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 50px;
+            height: 30px;
+            border-radius: 15px;
+            background: var(--card-bg);
+            box-shadow: 0 0 10px var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+        
+        .toggle-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #5b4fff;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        [data-theme="dark"] .toggle-circle {
+            transform: translateX(20px);
+            background: #ff5b99;
+        }
+        
+        .theme-toggle:hover {
+            box-shadow: 0 0 15px var(--card-shadow);
+        }
+        
+        /* Additional animations for nav */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* .nav-links li {
+            animation: fadeIn 0.3s ease forwards;
+            opacity: 0;
+        }
+        
+        .nav-links li:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links li:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links li:nth-child(3) { animation-delay: 0.3s; }
+        .nav-links li:nth-child(4) { animation-delay: 0.4s; } */
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Dark Mode Toggle Button -->
+    <div class="theme-toggle-container">
+        <span class="theme-toggle-label">Light Mode</span>
+        <button class="theme-toggle" aria-label="Toggle dark mode">
+            <div class="toggle-circle"></div>
+        </button>
+    </div>
+    <div class="content-wrapper">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#hero" class="active"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="#education"><i class="fas fa-graduation-cap"></i>Education</a></li>
+                <li><a href="#skills"><i class="fas fa-code"></i>Skills</a></li>
+                <li><a href="#projects"><i class="fas fa-project-diagram"></i>Projects</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i>Contact</a></li>
+                <div class="nav-glow"></div>
+            </ul>
+        </nav>
+        
+        <section class="hero" id="hero">
+            <h1>Nanakjoth Singh</h1>
+            <p>Student of <br>Network Engineer & Data Scientist</p>
+        </section>
+        
+        <section id="education" class="fade-in">
+            <h2>Education Journey</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Master's in Network Engineering</h3>
+                    <p>University of Technology</p>
+                    <p>2022 - 2024</p>
+                    <div class="badges">
+                        <span class="badge">Network Architecture</span>
+                        <span class="badge">Cloud Infrastructure</span>
+                        <span class="badge">Security Protocols</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Bachelor's in Computer Science</h3>
+                    <p>Tech Institute</p>
+                    <p>2018 - 2022</p>
+                    <div class="badges">
+                        <span class="badge">Programming</span>
+                        <span class="badge">Data Structures</span>
+                        <span class="badge">Algorithms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills" class="fade-in">
+            <h2>Technical Arsenal</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Network Engineering</h3>
+                    <div class="badges">
+                        <span class="badge">Cisco</span>
+                        <span class="badge">Juniper</span>
+                        <span class="badge">SDN</span>
+                        <span class="badge">VPN</span>
+                        <span class="badge">Firewall</span>
+                        <span class="badge">Load Balancing</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Data Science</h3>
+                    <div class="badges">
+                        <span class="badge">Python</span>
+                        <span class="badge">R</span>
+                        <span class="badge">TensorFlow</span>
+                        <span class="badge">PyTorch</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">Tableau</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Cloud & DevOps</h3>
+                    <div class="badges">
+                        <span class="badge">AWS</span>
+                        <span class="badge">Azure</span>
+                        <span class="badge">Docker</span>
+                        <span class="badge">Kubernetes</span>
+                        <span class="badge">CI/CD</span>
+                        <span class="badge">Terraform</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects" class="fade-in">
+            <h2>Featured Projects</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Network Traffic Analyzer</h3>
+                    <p>Real-time analysis of network traffic patterns using machine learning algorithms to detect anomalies and potential security threats.</p>
+                    <div class="badges">
+                        <span class="badge">Python</span>
+                        <span class="badge">TensorFlow</span>
+                        <span class="badge">Wireshark</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Cloud Migration Framework</h3>
+                    <p>Developed a comprehensive framework for migrating on-premises infrastructure to cloud platforms with minimal downtime.</p>
+                    <div class="badges">
+                        <span class="badge">AWS</span>
+                        <span class="badge">Terraform</span>
+                        <span class="badge">Docker</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Predictive Network Maintenance</h3>
+                    <p>AI-powered system that predicts network failures before they occur, reducing downtime by 75%.</p>
+                    <div class="badges">
+                        <span class="badge">Machine Learning</span>
+                        <span class="badge">Time Series Analysis</span>
+                        <span class="badge">Grafana</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="experience" class="fade-in">
+            <h2>Professional Journey</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Senior Network Engineer</h3>
+                    <p>TechCorp Inc.</p>
+                    <p>2022 - Present</p>
+                    <p>Designed and implemented enterprise-wide network solutions for Fortune 500 clients.</p>
+                </div>
+                <div class="card">
+                    <h3>Data Scientist</h3>
+                    <p>DataVision Analytics</p>
+                    <p>2020 - 2022</p>
+                    <p>Led a team developing predictive models for network optimization and security threat detection.</p>
+                </div>
+                <div class="card">
+                    <h3>Network Administrator</h3>
+                    <p>Global Systems</p>
+                    <p>2018 - 2020</p>
+                    <p>Managed and maintained network infrastructure for a multi-national corporation.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="fade-in">
+            <h2>Get in Touch</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Contact Information</h3>
+                    <p>Email: [your email]</p>
+                    <p>Phone: [your phone number]</p>
+                    <p>LinkedIn: [your LinkedIn profile]</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script type="module" src="main.js"></script>
+    <script>
+        // Load saved theme preference if exists
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+            
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const themeLabel = document.querySelector('.theme-toggle-label');
+            
+            // Update label text based on current theme
+            function updateThemeLabel(theme) {
+                themeLabel.textContent = theme === 'dark' ? 'Dark Mode' : 'Light Mode';
+            }
+            
+            // Initialize label text
+            updateThemeLabel(document.documentElement.getAttribute('data-theme') || 'light');
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeLabel(newTheme);
+                
+                // Update Three.js background
+                if (typeof updateThreeBackground === 'function') {
+                    updateThreeBackground(newTheme);
+                }
+            });
+        });
+    </script>
+    <script>
+        // Network Visualization Background
+        document.addEventListener('DOMContentLoaded', function() {
+            // Import Three.js from CDN
+            import('https://unpkg.com/three@0.160.0/build/three.module.js')
+                .then((THREE) => {
+                    // Create a scene
+                    const scene = new THREE.Scene();
+                    
+                    // Function to update background based on theme
+                    window.updateThreeBackground = function(theme) {
+                        if (theme === 'dark') {
+                            scene.background = new THREE.Color(0x0a0a1a); // Dark blue background
+                        } else {
+                            scene.background = new THREE.Color(0xf0f0f0); // Light gray background
+                        }
+                    };
+                    
+                    // Set initial background based on current theme
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                    updateThreeBackground(currentTheme);
+                    
+                    // Create a camera
+                    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+                    camera.position.z = 50; // Moved camera back to see more of the scene
+                    
+                    // Create a renderer
+                    const renderer = new THREE.WebGLRenderer({ antialias: true });
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                    
+                    // Style the canvas
+                    renderer.domElement.style.position = 'fixed';
+                    renderer.domElement.style.top = '0';
+                    renderer.domElement.style.left = '0';
+                    renderer.domElement.style.width = '100%';
+                    renderer.domElement.style.height = '100%';
+                    renderer.domElement.style.zIndex = '-1';
+                    
+                    // Add canvas to document
+                    document.body.insertBefore(renderer.domElement, document.body.firstChild);
+                    
+                    // Create a group for the network
+                    const network = new THREE.Group();
+                    
+                    // Define colors based on the image
+                    const colors = [
+                        new THREE.Color(0xff5b99), // Pink
+                        new THREE.Color(0x5b4fff), // Blue/Purple
+                        new THREE.Color(0x5bc2ff), // Light Blue
+                        new THREE.Color(0xff9d5b), // Orange
+                        new THREE.Color(0xc45bff)  // Purple
+                    ];
+                    
+                    // Create network paths like in the reference images
+                    createNetworkPath(); // Create flowing network paths that go across the screen
+                    
+                    // Add network to scene
+                    scene.add(network);
+                    
+                    // Animation
+                    const clock = new THREE.Clock();
+                    animate();
+                    
+                    // Resize handler
+                    window.addEventListener('resize', onWindowResize);
+                    
+                    // Create flowing network paths like in the reference images
+                    function createNetworkPath() {
+                        // Create curved paths
+                        createSPath(1); // S-shaped path 1
+                        createSPath(-1); // S-shaped path 2 (mirrored)
+                        createSPath(0.5); // Additional smaller path 
+                        createSPath(-0.5); // Additional smaller mirrored path
+                    }
+                    
+                    // Create an S-shaped network path
+                    function createSPath(direction) {
+                        const group = new THREE.Group();
+                        
+                        // Parameters
+                        const nodeCount = 750; // Increased from 300 to 750 (2.5x more nodes)
+                        const pathLength = 500; // Keep expanded path length
+                        const pathWidth = 75 * direction; // Keep expanded path width
+                        
+                        // Create array to store node data
+                        const nodes = [];
+                        const nodePositions = [];
+                        
+                        // Create nodes along an S-shaped path with noise
+                        for (let i = 0; i < nodeCount; i++) {
+                            // Calculate base position along S-curve
+                            const t = i / nodeCount;
+                            const angle = t * Math.PI * 2 * 1.5; // 1.5 cycles of sine wave
+                            
+                            // Base S-curve
+                            const x = Math.sin(angle) * pathWidth;
+                            const y = (t * pathLength) - (pathLength/2);
+                            
+                            // Add some random offset from the path
+                            const randomOffset = Math.random();
+                            const offsetAmount = randomOffset < 0.7 ? 
+                                                 randomOffset * 4 : // Reverted to original
+                                                 4 + randomOffset * 12; // Reverted to original
+                            
+                            const offsetAngle = Math.random() * Math.PI * 2;
+                            const offsetX = Math.cos(offsetAngle) * offsetAmount;
+                            const offsetY = Math.sin(offsetAngle) * offsetAmount;
+                            
+                            // Final position
+                            const finalX = x + offsetX;
+                            const finalY = y + offsetY;
+                            const finalZ = (Math.random() - 0.5) * 5 - 10;
+                            
+                            // Create node
+                            const size = 0.1 + Math.random() * 0.15; // Reverted to original size
+                            
+                            const geometry = new THREE.SphereGeometry(size, 16, 16);
+                            
+                            // Choose color with weighted distribution
+                            // Make colors match the reference image
+                            const colorIndex = Math.random() < 0.7 ? 
+                                Math.floor(Math.random() * 3) : // More pink, blue, light blue
+                                3 + Math.floor(Math.random() * 2); // Less orange, purple
+                            
+                            const material = new THREE.MeshBasicMaterial({
+                                color: colors[colorIndex],
+                                transparent: true,
+                                opacity: 0.9
+                            });
+                            
+                            const node = new THREE.Mesh(geometry, material);
+                            node.position.set(finalX, finalY, finalZ);
+                            
+                            // Add glow effect
+                            const glowGeometry = new THREE.SphereGeometry(size * 2, 16, 16); // Reverted to original
+                            const glowMaterial = new THREE.MeshBasicMaterial({
+                                color: colors[colorIndex],
+                                transparent: true,
+                                opacity: 0.2
+                            });
+                            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                            node.add(glow);
+                            
+                            // Store node and position data
+                            nodes.push({
+                                mesh: node,
+                                color: colors[colorIndex]
+                            });
+                            nodePositions.push(new THREE.Vector3(finalX, finalY, finalZ));
+                            
+                            group.add(node);
+                        }
+                        
+                        // Create connections between nearby nodes
+                        // Use Delaunay-like approach to ensure connections follow the path
+                        for (let i = 0; i < nodeCount; i++) {
+                            // Find 2-3 nearest unconnected neighbor nodes
+                            const connectedNodes = [];
+                            
+                            // Always connect to next node along path if close enough
+                            if (i < nodeCount - 1) {
+                                const dist = nodePositions[i].distanceTo(nodePositions[i + 1]);
+                                if (dist < 10) { // Reverted to original
+                                    createConnection(i, i + 1, dist);
+                                    connectedNodes.push(i + 1);
+                                }
+                            }
+                            
+                            // Find additional nearby nodes for connections
+                            // Prioritize nodes that create the path-like pattern in reference images
+                            for (let j = 0; j < nodeCount; j++) {
+                                if (i !== j && !connectedNodes.includes(j) && connectedNodes.length < 3) {
+                                    const dist = nodePositions[i].distanceTo(nodePositions[j]);
+                                    if (dist < 5) { // Reverted to original
+                                        createConnection(i, j, dist);
+                                        connectedNodes.push(j);
+                                    }
+                                }
+                            }
+                            
+                            // Function to create a connection between nodes
+                            function createConnection(fromIndex, toIndex, distance) {
+                                const points = [
+                                    nodePositions[fromIndex],
+                                    nodePositions[toIndex]
+                                ];
+                                
+                                const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+                                
+                                // Line color matches the nodes but more transparent
+                                // Colors based on the reference image
+                                const lineColor = nodes[fromIndex].color.clone();
+                                
+                                const lineMaterial = new THREE.LineBasicMaterial({
+                                    color: lineColor,
+                                    transparent: true,
+                                    opacity: 0.3 * (1 - (distance / 10)) // Reverted to original fade distance
+                                });
+                                
+                                const line = new THREE.Line(lineGeometry, lineMaterial);
+                                group.add(line);
+                            }
+                        }
+                        
+                        // Position group in 3D space
+                        group.position.x = direction * 25; // Offset left or right
+                        group.rotation.z = direction * 0.1; // Slight tilt
+                        group.userData = {
+                            // SPEED CONTROL 1: Rotation speed of each section
+                            rotationSpeed: 0.001 * direction, // Increased from 0.0002 to 0.001
+                            // SPEED CONTROL 2: Float animation speed
+                            floatSpeed: 0.002, // Increased from 0.0005 to 0.002
+                            floatAmplitude: 0.3 // Increased from 0.2 to 0.3
+                        };
+                        
+                        network.add(group);
+                    }
+                    
+                    // Animation loop
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        
+                        const time = clock.getElapsedTime();
+                        
+                        // SPEED CONTROL 3: Overall network rotation speed
+                        // First number (0.15) controls rotation frequency - higher = faster
+                        // Second number (0.1) controls rotation amount - higher = more rotation
+                        network.rotation.y = Math.sin(time * 0.15) * 0.1;
+                        
+                        // Animate network sections
+                        network.children.forEach(section => {
+                            if (section.userData) {
+                                // Gentle rotation
+                                section.rotation.z += section.userData.rotationSpeed;
+                                
+                                // Subtle floating motion
+                                section.position.y += Math.sin(time * section.userData.floatSpeed) * 
+                                                     0.01 * section.userData.floatAmplitude;
+                            }
+                        });
+                        
+                        // Render
+                        renderer.render(scene, camera);
+                    }
+                    
+                    // Handle window resize
+                    function onWindowResize() {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading Three.js:', error);
+                });
+        });
+    </script>
+    <script>
+        // Smart Navigation Behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const navGlow = document.querySelector('.nav-glow');
+            const sections = document.querySelectorAll('section');
+            const heroSection = document.querySelector('#hero');
+            let lastScrollTop = 0;
+            
+            // Position glow under active link initially
+            function updateNavGlow() {
+                const activeLink = document.querySelector('.nav-links a.active');
+                if (activeLink) {
+                    const linkRect = activeLink.getBoundingClientRect();
+                    const parentRect = activeLink.parentElement.parentElement.getBoundingClientRect();
+                    
+                    navGlow.style.width = `${linkRect.width}px`;
+                    navGlow.style.left = `${linkRect.left - parentRect.left}px`;
+                    navGlow.style.opacity = '1';
+                }
+            }
+            
+            // Call initially
+            setTimeout(updateNavGlow, 100);
+            
+            // Update on scroll
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const heroHeight = heroSection.offsetHeight;
+                
+                // Check if we're in the hero section
+                if (scrollTop < heroHeight * 0.7) {
+                    // We're in the hero section - navigation at bottom
+                    nav.classList.remove('at-top');
+                    nav.classList.remove('hidden');
+                } else {
+                    // We're below the hero section - navigation at top
+                    nav.classList.add('at-top');
+                    
+                    // Show/hide based on scroll direction
+                    if (scrollTop > lastScrollTop && scrollTop > heroHeight + 100) {
+                        // Scrolling down far from hero - hide nav
+                        nav.classList.add('hidden');
+                    } else {
+                        // Scrolling up or near hero - show nav
+                        nav.classList.remove('hidden');
+                    }
+                }
+                
+                lastScrollTop = scrollTop;
+                
+                // Update active link based on section
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollTop >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Update glow position
+                updateNavGlow();
+            });
+            
+            // Handle clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(otherLink => otherLink.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update glow position immediately
+                    updateNavGlow();
+                    
+                    // Get target section
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    // If clicking hero link while already in hero, just scroll to top
+                    if (targetId === '#hero') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // For other sections, scroll to their position
+                        window.scrollTo({
+                            top: targetSection.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size, position and color
+                const size = 3 + Math.random() * 8;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Add glow color
+                const colors = ['rgba(0, 255, 255,', 'rgba(255, 0, 255,', 'rgba(255, 128, 0,'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}vw`;
+                particle.style.top = `${y}vh`;
+                particle.style.boxShadow = `0 0 ${size}px ${size/2}px ${color} 0.8)`;
+                
+                // Different animation durations
+                const duration = 10 + Math.random() * 20;
+                const delay = Math.random() * 5;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Create particles when page loads
+        window.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+    <script>
+        // Set active nav link based on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
