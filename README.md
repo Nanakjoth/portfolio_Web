@@ -12,8 +12,8 @@ This portfolio represents the cutting edge of human-AI co-creation - where techn
 
 ## 🛠 Technology Stack
 - Frontend: HTML5, CSS3, JavaScript
-- AI Tools: GitHub Copilot, ChatGPT, and other cutting-edge assistants
-- Deployment: GitHub Pages
+- AI Tools: ChatGPT, TRAE AI, Sonnet3.7
+- Deployment: GitHub Pages ( https://nanakjoth.github.io/portfolio_Web/ )
 
 ## 🔧 Setup
 ```bash
@@ -23,11 +23,9 @@ cd portfolio_Web
 
 ## 🤖 Human+AI Philosophy
 This project embodies my belief in:
-> "The perfect partnership between human creativity and AI capabilities - where intuition meets computation to create something greater than either could achieve alone."
+> "The partnership between human creativity and AI capabilities - where intuition meets computation to create something take time to achieve alone."
 
 ## 🚀 Future Vision
 - Integrate more AI-assisted development workflows
 - Showcase evolving AI collaboration techniques
 - Document the human-AI creative process
-
-💡 *This README itself was co-created with AI to demonstrate our collaborative potential!*
