@@ -1,9 +1,9 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/controls/OrbitControls.js';
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/postprocessing/ShaderPass.js';
+// Assumes THREE is loaded globally via <script> in index.html.
+// If OrbitControls is needed, load via <script> in index.html.
+// If EffectComposer is needed, load via <script> in index.html.
+// If RenderPass is needed, load via <script> in index.html.
+// If UnrealBloomPass is needed, load via <script> in index.html.
+// If ShaderPass is needed, load via <script> in index.html.
 
 // Scene setup
 const scene = new THREE.Scene();
