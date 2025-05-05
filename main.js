@@ -112,7 +112,7 @@ const createMassiveEnvironment = () => {
             const platformMaterial = new THREE.MeshPhongMaterial({
                 color: 0x0088ff,
                 emissive: 0x0044aa,
-                emissiveIntensity: 0.5,
+                emissiveIntensity: 0.7,
                 transparent: true,
                 opacity: 0.9,
                 flatShading: true
