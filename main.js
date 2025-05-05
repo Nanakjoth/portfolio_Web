@@ -296,7 +296,7 @@ const createMassiveEnvironment = () => {
         
         centralStructure.position.y = 0;
         centralStructure.userData = {
-            rotationSpeed: 0.001
+            rotationSpeed: 0.004
         };
         
         worldGroup.add(centralStructure);
